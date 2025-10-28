@@ -26,8 +26,9 @@ public class LNMain {
 
         for(int i = 0; i < 31; i++){
             System.out.println("X = " + (1+i*0.05) + "; 1/X = " + interpolationHyperbola.calculateY(new BigDecimal(1+i*0.05)).setScale(10, RoundingMode.HALF_UP));
-            System.out.println("X = " + (1+i*0.05) + "; x^3 = " + interpolationCubicParabola.calculateY(new BigDecimal(1+i*0.05)).setScale(10, RoundingMode.HALF_UP));
+            System.out.println("X = " + (1+i*0.05) + "; X^3 = " + interpolationCubicParabola.calculateY(new BigDecimal(1+i*0.05)).setScale(10, RoundingMode.HALF_UP));
             System.out.println("___________________________________________");
         }
     }
 }
+
