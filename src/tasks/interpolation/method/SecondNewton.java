@@ -31,11 +31,7 @@ public class SecondNewton implements InterpolationMethod {
         BigDecimal factorial = new BigDecimal(1);
 
         for (int i = 1; i <= points.size()-1; i++) {
-            if (i == 1)
-                product = q;
-             else
-                product = product.multiply(q.add(new BigDecimal(i - 1)));
-
+            product = product.multiply(q.add(new BigDecimal(i - 1)));
 
             BigDecimal difference = getBackwardDifference(dy, points.size()-1, i);
             factorial = factorial.multiply(new BigDecimal(i));
@@ -69,4 +65,5 @@ public class SecondNewton implements InterpolationMethod {
 
         return BigDecimal.ZERO;
     }
+
 }
