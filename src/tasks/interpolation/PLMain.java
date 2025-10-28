@@ -57,26 +57,37 @@ public class PLMain {
 
         System.out.println("Введите координаты (x и y) каждой точки: ");
         for(int i = 0; i < size; i++){
-            System.out.println("x"+(i+1)+" = ");
-            stringScanner = scanner.nextLine();
-            while (!isBigDecimal(stringScanner)){
-                System.out.println("Должно быть число: ");
+            boolean flag = false;
+            do {
+                flag = false;
+                System.out.println("x"+(i+1)+" = ");
                 stringScanner = scanner.nextLine();
-            }
+                while (!isBigDecimal(stringScanner)){
+                    System.out.println("Должно быть число: ");
+                    stringScanner = scanner.nextLine();
+                }
 
-            BigDecimal x = new BigDecimal(stringScanner);
+                BigDecimal x = new BigDecimal(stringScanner);
 
-            System.out.println("y"+(i+1)+" = ");
-            stringScanner = scanner.nextLine();
-            while (!isBigDecimal(stringScanner)){
-                System.out.println("Должно быть число: ");
+                System.out.println("y"+(i+1)+" = ");
+
                 stringScanner = scanner.nextLine();
-            }
 
-            BigDecimal y = new BigDecimal(stringScanner);
+                while (!isBigDecimal(stringScanner)) {
+                    System.out.println("Должно быть число: ");
+                    stringScanner = scanner.nextLine();
+                }
 
+                BigDecimal y = new BigDecimal(stringScanner);
 
-            interpolation.push(x,y);
+                try {
+                    interpolation.push(x, y);
+                } catch (IllegalArgumentException e) {
+                    flag = true;
+                    System.out.println("Уже есть точка с таким же значением x: " + x);
+                }
+            }while (flag);
+
         }
 
         System.out.println("Введите x: ");
