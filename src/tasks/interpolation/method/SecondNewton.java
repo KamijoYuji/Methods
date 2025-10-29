@@ -19,7 +19,7 @@ public class SecondNewton implements InterpolationMethod {
         //q = (x - xn)/h
         BigDecimal q = x.subtract(points.getLast().first).divide(h,MathContext.DECIMAL128);
 
-        //dy[0] - это все данные значения y, а dy[i][j] (i = 1,...,n; j = 0,...,n-i) - это разностные производные i-ого порядка
+        //dy[0] - это все данные значения y, а dy[i][j] (i = 1,...,n; j = 0,...,n-i) - это конечные разности i-ого порядка
         List<List<BigDecimal>> dy = new ArrayList<>();
         for(int i = 0; i < points.size(); i++) {
             dy.add(new ArrayList<>());
@@ -45,3 +45,4 @@ public class SecondNewton implements InterpolationMethod {
         return Pn;
     }
 }
+
