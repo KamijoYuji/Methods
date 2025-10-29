@@ -15,6 +15,10 @@ public class SecondNewton implements InterpolationMethod {
 
         //h = x1 - x0
         BigDecimal h = points.get(1).first.subtract(points.getFirst().first);
+        if(points.size() >= 3)
+            for(int i = 2; i < points.size(); i++)
+                if(h.compareTo(points.get(i).first.subtract(points.get(i-1).first)) != 0)
+                    throw new IllegalArgumentException("Unequally spaced nodes");
 
         //q = (x - xn)/h
         BigDecimal q = x.subtract(points.getLast().first).divide(h,MathContext.DECIMAL128);
@@ -45,4 +49,3 @@ public class SecondNewton implements InterpolationMethod {
         return Pn;
     }
 }
-
