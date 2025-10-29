@@ -13,57 +13,35 @@ public class SecondNewton implements InterpolationMethod {
         if (points.size() < 2)
             throw new IllegalArgumentException("At least 2 points are required");
 
-
+        //h = x1 - x0
         BigDecimal h = points.get(1).first.subtract(points.getFirst().first);
-        for (int i = 2; i < points.size(); i++) {
-            BigDecimal currentStep = points.get(i).first.subtract(points.get(i-1).first);
-            if (currentStep.compareTo(h) != 0)
-                throw new IllegalArgumentException("Points must be equally spaced");
 
+        //q = (x - xn)/h
+        BigDecimal q = x.subtract(points.getLast().first).divide(h,MathContext.DECIMAL128);
+
+        //dy[0] - это все данные значения y, а dy[i][j] (i = 1,...,n; j = 0,...,n-i) - это разностные производные i-ого порядка
+        List<List<BigDecimal>> dy = new ArrayList<>();
+        for(int i = 0; i < points.size(); i++) {
+            dy.add(new ArrayList<>());
+            for(int j = 0; j < points.size() - i; j++) {
+                if (i == 0)
+                    dy.getFirst().add(points.get(j).second);
+                else
+                    dy.getLast().add(dy.get(i - 1).get(j + 1).subtract(dy.get(i - 1).get(j)));
+            }
         }
 
-        BigDecimal q = (x.subtract(points.getLast().first)).divide(h, MathContext.DECIMAL128);
+        BigDecimal fractal = new BigDecimal(1); //0!, 1!, 2!, 3!, ..., n!
+        BigDecimal partWithQ = new BigDecimal(1); //q, q(q+1), q(q+1)(q+2), ..., q(q+1)...(q+n-1)
+        BigDecimal Pn = dy.getFirst().getLast(); //Pn = yn + dy<n-1>*q + d2y<n-2>*q(q+1)/2 + d3y<n-3>*q(q+1)(q+2)/6 +...
 
-        List<List<BigDecimal>> dy = buildDifferenceTable(points);
+        for(int i = 1; i < points.size(); i++){
+            fractal = fractal.multiply(new BigDecimal(i));
+            partWithQ = partWithQ.multiply(q.add(new BigDecimal(i-1)));
 
-        BigDecimal Pn = points.getLast().second;
-        BigDecimal product = BigDecimal.ONE;
-        BigDecimal factorial = new BigDecimal(1);
-
-        for (int i = 1; i <= points.size()-1; i++) {
-            product = product.multiply(q.add(new BigDecimal(i - 1)));
-
-            BigDecimal difference = getBackwardDifference(dy, points.size()-1, i);
-            factorial = factorial.multiply(new BigDecimal(i));
-
-            Pn = Pn.add(product.multiply(difference).divide(factorial, MathContext.DECIMAL128));
+            Pn = Pn.add(dy.get(i).getLast().multiply(partWithQ).divide(fractal, MathContext.DECIMAL128));
         }
 
         return Pn;
     }
-
-    private List<List<BigDecimal>> buildDifferenceTable(List<Pair<BigDecimal, BigDecimal>> points) {
-        List<List<BigDecimal>> dy = new ArrayList<>();
-
-        dy.add(new ArrayList<>());
-        for (Pair<BigDecimal, BigDecimal> point : points)
-            dy.getFirst().add(point.second);
-
-        for (int i = 1; i < points.size(); i++) {
-            dy.add(new ArrayList<>());
-            for (int j = 0; j < dy.get(i-1).size() - 1; j++) {
-                BigDecimal diff = dy.get(i-1).get(j+1).subtract(dy.get(i-1).get(j));
-                dy.get(i).add(diff);
-            }
-        }
-        return dy;
-    }
-
-    private BigDecimal getBackwardDifference(List<List<BigDecimal>> dy, int n, int order) {
-        if (order < dy.size() && (n - order) >= 0 && (n - order) < dy.get(order).size())
-            return dy.get(order).get(n - order);
-
-        return BigDecimal.ZERO;
-    }
-
 }
