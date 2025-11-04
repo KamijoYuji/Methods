@@ -11,7 +11,6 @@ import java.util.List;
 public class Interpolation {
     private final List<Pair<BigDecimal, BigDecimal>> points;
     private InterpolationMethod interpolationMethod;
-    private final List<List<BigDecimal>> dy;
 
     public void setInterpolationMethod(InterpolationMethod interpolationMethod) {
         this.interpolationMethod = interpolationMethod;
@@ -20,7 +19,6 @@ public class Interpolation {
     public Interpolation() {
         points = new ArrayList<>();
         interpolationMethod = new PiecewiseLinear();
-        dy = new ArrayList<>();
     }
 
     void push(BigDecimal x, BigDecimal y) {
@@ -56,4 +54,5 @@ public class Interpolation {
     BigDecimal calculateY(BigDecimal x) {
         return interpolationMethod.calculateY(x, points);
     }
+
 }
