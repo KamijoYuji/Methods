@@ -10,18 +10,21 @@ public class Differentiation {
 
     BigDecimal rightDiff(Func<BigDecimal, BigDecimal> f, BigDecimal x, BigDecimal h){
         validateParams(f, x, h);
+        //(f(x+h) - f(x))/h
         return (f.calculate(x.add(h, MC)).subtract(f.calculate(x), MC))
                 .divide(h, MC);
     }
 
     BigDecimal leftDiff(Func<BigDecimal, BigDecimal> f, BigDecimal x, BigDecimal h){
         validateParams(f, x, h);
+        //(f(x) - f(x-h))/h
         return (f.calculate(x).subtract(f.calculate(x.subtract(h, MC)), MC))
                 .divide(h, MC);
     }
 
     BigDecimal centralDiff(Func<BigDecimal, BigDecimal> f, BigDecimal x, BigDecimal h){
         validateParams(f, x, h);
+        //(f(x+h) - f(x-h))/2h
         return (f.calculate(x.add(h, MC)).subtract(f.calculate(x.subtract(h, MC)), MC))
                 .divide(h.multiply(BigDecimal.valueOf(2)), MC);
     }
@@ -29,6 +32,7 @@ public class Differentiation {
     BigDecimal secondDiff(Func<BigDecimal, BigDecimal> f, BigDecimal x, BigDecimal h){
         validateParams(f, x, h);
         BigDecimal h2 = h.multiply(h, MC);
+        //(f(x+h) - 2f(x) + f(x-h))/(h^2)
         return (f.calculate(x.add(h, MC))
                 .subtract(f.calculate(x).multiply(BigDecimal.valueOf(2), MC)
                         .add(f.calculate(x.subtract(h, MC)), MC), MC))
