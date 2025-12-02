@@ -1,7 +1,6 @@
 package tasks.interpolation;
 
 import tasks.interpolation.method.PiecewiseLinear;
-import tasks.interpolation.method.SecondNewton;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
