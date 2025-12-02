@@ -3,9 +3,10 @@ package tasks.interpolation;
 import tasks.interpolation.method.SecondNewton;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class LNMain {
+public class SNMain {
     public static void main(String[] args){
         Interpolation interpolationHyperbola = new Interpolation();
         Interpolation interpolationCubicParabola = new Interpolation();
@@ -13,14 +14,14 @@ public class LNMain {
         interpolationCubicParabola.setInterpolationMethod(new SecondNewton());
 
 
-        double h = 0.5;
-        double x = 1;
+        //добавляем x с 1 и по 2.5 с шагом 0.5 и y для этого x
+        BigDecimal h = new BigDecimal("0.5");
+        BigDecimal x = new BigDecimal("1");
         for(int i = 0; i < 4; i++)
         {
-            interpolationHyperbola.push(new BigDecimal(x), new BigDecimal(1/x));
-            interpolationCubicParabola.push(new BigDecimal(x), new BigDecimal(x*x*x));
-
-            x+=h;
+            interpolationHyperbola.push(x, BigDecimal.ONE.divide(x, MathContext.DECIMAL128));
+            interpolationCubicParabola.push(x, x.multiply(x.multiply(x)));
+            x = x.add(h);
         }
 
 
@@ -31,4 +32,3 @@ public class LNMain {
         }
     }
 }
-
