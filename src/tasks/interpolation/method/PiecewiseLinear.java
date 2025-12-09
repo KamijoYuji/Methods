@@ -29,6 +29,6 @@ public class PiecewiseLinear implements InterpolationMethod {
             }
 
 
-        throw new IllegalArgumentException("x is outside interpolation range");
+        throw new IndexOutOfBoundsException("x is outside interpolation range");
     }
 }
