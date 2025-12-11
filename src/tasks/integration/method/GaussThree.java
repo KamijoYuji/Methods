@@ -29,7 +29,7 @@ public class GaussThree implements IntegrationMethod{
         BigDecimal val2 = upperBound.subtract(lowerBound).divide(BigDecimal.TWO,MathContext.DECIMAL128);//(b-a)/2
 
         BigDecimal x1 = val1.add(val2.multiply(t1));    //(b+a)/2 + t<1>(b-a)/2 = (b+a)/2 - t<3>(b-a)/2
-        BigDecimal x2 = val1.add(val2.multiply(t2));    //(b+a)/2 + t<1>(b-a)/2 = (b+a)/2
+        BigDecimal x2 = val1.add(val2.multiply(t2));    //(b+a)/2 + t<2>(b-a)/2 = (b+a)/2
         BigDecimal x3 = val1.add(val2.multiply(t3));    //(b+a)/2 + t<3>(b-a)/2 = (b+a)/2 + t<3>(b-a)/2
 
         //((b-a)/2) * (5f(x<1>)/9 + 8f(x<2>)/9 + 5f(x<3>)/9)
