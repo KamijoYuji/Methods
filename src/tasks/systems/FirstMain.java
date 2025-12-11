@@ -4,7 +4,7 @@ import helper.DFunc;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public class Main {
+public class FirstMain {
     private static final DFunc<BigDecimal,BigDecimal,BigDecimal> F = (x, y) -> BigDecimal.TWO.multiply(x.pow(3)).
             subtract(y.pow(2)).
             subtract(BigDecimal.ONE);
